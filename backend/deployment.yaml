@@ -1,0 +1,23 @@
+apiVersion: apps/v1 # versão do app que estamos executando no Kubernetes
+kind: Deployment # Tipo de conteúdo que o arquivo trabalha. Um Deploy, ou um volume de dados, ou então um replica
+metadata: # Metadados do deployment
+  name: my-app # nome do deploy dentro do kubernets
+spec: # Especificações
+  selector: # Lable/rotulo
+    matchLabels:
+      app: my-app
+  replicas: 2 # Numero de réplicas da minha aplicação
+  template: # Modelo da aplicação
+    metadata:
+      labels:
+        app: my-app # Nome do Modelo da Aplicação
+    spec:
+      containers: # Container / Imagem da da aplicação
+        - name: my-app # Nome dentro do Kubernetes
+          image: andresnu/ecomerce:latest # Imagem que será usada no cluster
+          imagePullPolicy: IfNotPresent # Politica de uso da imagens, IfNotPresente, Never
+          ports:
+            - containerPort: 3333 # A porta liberada dentro do Cluster
+          env: # Variaveis de ambiente
+          - name: DB_HOST 
+            value: "postgres"
